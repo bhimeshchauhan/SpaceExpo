@@ -4,68 +4,81 @@ using UnityEngine;
 
 public class spaceShipController : MonoBehaviour
 {
-    public float speedH = 50.0f;
-    public float speedV = 50.0f;  
-    public float rollSpeed = 5.0f;  
+    public float speed = 150.0f;  
+    public float thrust = 90.0f;
     private float yaw = 0.0f;
     private float pitch = 0.0f;
-    private float roll = 0.0f;
-    private float thrust = 0.0f;
-    GameObject ss;
+    // private float roll = 10.0f;
+    public GameObject rock1;
+    public GameObject rock2;
+    public GameObject rock3;
+    public GameObject rock4;
+    public GameObject rock5;
+    public GameObject rock6;
+    public GameObject rock7;
+    public GameObject leftShooter;
+    public GameObject rightShooter;
+    private static List<GameObject> rockesAssortments;
+    private float random;
+
+    float getRandom()
+    {
+        random =  Random.Range(-1000.0f, 1000.0f);
+        if (random < 0) 
+        {
+            random -= 100;
+        }
+        else 
+        {
+            random += 100;
+        }
+        return random;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        rockesAssortments =  new List<GameObject> {rock1, rock2, rock3, rock4, rock5, rock6, rock7};
         Cursor.visible = false;
-        ss = GameObject.Find("spaceShip");
+        for (int i = 0; i < 100; i++) 
+        {
+            int index = Random.Range(0, rockesAssortments.Count);
+            Instantiate(rockesAssortments[index], new Vector3(getRandom(), getRandom(), getRandom()), Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        //get the Input from Horizontal axis
-        float horizontalInput = Input.GetAxis("Horizontal");
-        //get the Input from Vertical axis
-        float verticalInput = Input.GetAxis("Vertical");
-
-        // position and rotation
-        Vector3 position = transform.position;
-        Vector3 rotation = transform.rotation.eulerAngles;
-
-        // roll
-        // if (Input.GetKey("d"))
-        // {
-        //     transform.Rotate(0.0f, 0.0f, roll * Input.GetAxis( "Horizontal" ) * speedV * Time.deltaTime);
-        // } 
-        // else if (Input.GetKey("a"))
-        // {
-        //     transform.Rotate(0.0f, 0.0f, roll * Input.GetAxis( "Horizontal" ) * speedV * Time.deltaTime);
-        // }else 
-        if (Input.GetKey("w"))
-        {
-            Debug.Log("Move Forward");
-            position = transform.forward * Time.deltaTime * speedV;
-            transform.position += position;
-        }
-        yaw += rollSpeed * Input.GetAxis("Mouse X");
-        pitch -= rollSpeed * Input.GetAxis("Mouse Y");
-
+        yaw += yawController();
+        pitch -= pitchController();
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
+        if (Input.GetKey(KeyCode.W) && Input.GetKey("left shift"))
+        {
+           thrust = 200.0f;
+        } else {
+            thrust = 90.0f;
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveForward();
+        }
     }
  
     // Move Forward - move front - Key: 'W'
     // Position - Z
-    Vector3 moveController()
+    void moveForward()
     {
-        return new Vector3();
+        transform.position += transform.forward * Time.deltaTime * thrust;
     }
 
     // Pitch the ship - nose and tail up-down tilt - Key: 'Mouse'
     // Rotation - X
-    Vector3 pitchController()
+    float pitchController()
     {
-        return new Vector3();
+        return speed * Input.GetAxis("Mouse Y");
     }
 
     // Roll the ship - wing tip tilt - Key: 'A & D'
@@ -77,8 +90,8 @@ public class spaceShipController : MonoBehaviour
 
     // Yaw the ship - nose and tail side ways tilt - Key: 'Mouse'
     // Rotation - Y
-    Vector3 yawController()
+    float yawController()
     {
-        return new Vector3();
+        return speed * Input.GetAxis("Mouse X");
     }
 }
