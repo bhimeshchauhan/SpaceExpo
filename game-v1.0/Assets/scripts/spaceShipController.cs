@@ -4,81 +4,60 @@ using UnityEngine;
 
 public class spaceShipController : MonoBehaviour
 {
-    public float speed = 150.0f;  
+    public float rotate = 150.0f;  
     public float thrust = 90.0f;
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     // private float roll = 10.0f;
-    public GameObject rock1;
-    public GameObject rock2;
-    public GameObject rock3;
-    public GameObject rock4;
-    public GameObject rock5;
-    public GameObject rock6;
-    public GameObject rock7;
     public GameObject leftShooter;
     public GameObject rightShooter;
-    private static List<GameObject> rockesAssortments;
-    private float random;
+    private Transform move;
 
-    float getRandom()
+    void Awake()
     {
-        random =  Random.Range(-1000.0f, 1000.0f);
-        if (random < 0) 
-        {
-            random -= 100;
-        }
-        else 
-        {
-            random += 100;
-        }
-        return random;
+        move = transform;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rockesAssortments =  new List<GameObject> {rock1, rock2, rock3, rock4, rock5, rock6, rock7};
-        Cursor.visible = false;
-        for (int i = 0; i < 100; i++) 
-        {
-            int index = Random.Range(0, rockesAssortments.Count);
-            Instantiate(rockesAssortments[index], new Vector3(getRandom(), getRandom(), getRandom()), Quaternion.identity);
-        }
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        yaw += yawController();
-        pitch -= pitchController();
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        yawController();
+        pitchController();
+        moveForward();
+        throttle();
+    }
 
+    void throttle()
+    {
         if (Input.GetKey(KeyCode.W) && Input.GetKey("left shift"))
         {
-           thrust = 200.0f;
-        } else {
-            thrust = 90.0f;
-        }
-
-        if (Input.GetKey(KeyCode.W))
+           thrust = 500.0f;
+        } else 
         {
-            moveForward();
+            thrust = 90.0f;
         }
     }
  
-    // Move Forward - move front - Key: 'W'
-    // Position - Z
+    // Move Forward - move front - Key: ' W'
     void moveForward()
     {
-        transform.position += transform.forward * Time.deltaTime * thrust;
+        if (Input.GetKey(KeyCode.W))
+        {
+            move.position += move.forward * Time.deltaTime * thrust * Input.GetAxis("Vertical");
+        }
     }
 
     // Pitch the ship - nose and tail up-down tilt - Key: 'Mouse'
     // Rotation - X
     float pitchController()
     {
-        return speed * Input.GetAxis("Mouse Y");
+        return rotate * Input.GetAxis("Mouse Y");
     }
 
     // Roll the ship - wing tip tilt - Key: 'A & D'
@@ -90,8 +69,10 @@ public class spaceShipController : MonoBehaviour
 
     // Yaw the ship - nose and tail side ways tilt - Key: 'Mouse'
     // Rotation - Y
-    float yawController()
+    void yawController()
     {
-        return speed * Input.GetAxis("Mouse X");
+        yaw = rotate * Time.deltaTime * Input.GetAxis("Horizontal");
+        move.Rotate(0.0f, yaw, 0.0f);
+        // return rotate * Input.GetAxis("Mouse X");
     }
 }
