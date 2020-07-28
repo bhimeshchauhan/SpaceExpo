@@ -9,6 +9,7 @@ public class spaceShipController : MonoBehaviour
     private float yaw = 0.0f;
     public float pitch = 0.0f;
     private float roll = 0.0f;
+    private float toggleDirection = 1.0f;
     public GameObject leftShooter;
     public GameObject rightShooter;
     private Transform move;
@@ -30,6 +31,19 @@ public class spaceShipController : MonoBehaviour
         pitchyawrollController();
         moveForward();
         throttle();
+        setDirection();
+    }
+
+    void setDirection()
+    {
+        if (Vector3.Dot(transform.up, Vector3.down) > 0)
+        {
+            toggleDirection = -1.0f;
+        }
+        else
+        {
+            toggleDirection = 1.0f;
+        }
     }
 
     void throttle()
@@ -57,10 +71,10 @@ public class spaceShipController : MonoBehaviour
     // Rotation - X
     void pitchyawrollController()
     {
-        pitch -= rotate * Time.deltaTime * Input.GetAxis("Mouse Y");
+        // pitch += toggleDirection * rotate * Time.deltaTime * Input.GetAxis("Mouse Y");
         // yaw += rotate * Time.deltaTime * Input.GetAxis("Mouse X");
-        // pitch -= rotate * Time.deltaTime * Input.GetAxis("Pitch");
-        yaw += rotate * Time.deltaTime * Input.GetAxis("Horizontal");
+        pitch -= rotate * Time.deltaTime * Input.GetAxis("Pitch");
+        yaw += toggleDirection * rotate * Time.deltaTime * Input.GetAxis("Horizontal");
         roll -= rotate * Time.deltaTime * Input.GetAxis("Roll");
         move.eulerAngles = new Vector3(pitch, yaw, roll);
     }

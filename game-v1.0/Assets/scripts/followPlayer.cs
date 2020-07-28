@@ -6,7 +6,7 @@ public class followPlayer : MonoBehaviour
 {
     public Transform target;
     private Transform move;
-    public Vector3 velocity = Vector3.one;
+    public Vector3 velocity = new Vector3(2.0f, 2.0f, 2.0f);
     private Vector3 defaultDistance = new Vector3(0.0f, 9.0f, -35.0f);
     public float distanceDamp = 0.5f;
 

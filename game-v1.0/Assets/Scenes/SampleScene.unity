@@ -594,8 +594,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 659554169}
-  velocity: {x: 1, y: 1, z: 1}
-  distanceDamp: 2
+  velocity: {x: 2, y: 2, z: 2}
+  distanceDamp: 0.5
 --- !u!1 &1373219616
 GameObject:
   m_ObjectHideFlags: 0
