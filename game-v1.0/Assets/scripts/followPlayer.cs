@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class followPlayer : MonoBehaviour
 {
-    // public Transform player;
-    // public float smoothSpeed = 5.0f;
-    // public Vector3 offset;
-    // private float yaw = 0.0f;
-    // private float pitch = 0.0f;
-    // public float rollSpeed = 5.0f; 
+    public Transform target;
+    private Transform move;
+    public Vector3 velocity = Vector3.one;
+    private Vector3 defaultDistance = new Vector3(0.0f, 9.0f, -35.0f);
+    public float distanceDamp = 0.5f;
 
-    void Update ()
+    void Awake()
     {
-        // if(player)
-        // {
-        //     offset = new Vector3(0.0f, 30.0f, -40.0f);
-        //     Vector3 desiredPosition = player.TransformPoint(offset);
-        //     Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        //     transform.position = smoothedPosition;
-        //     transform.LookAt(player);
-        // }
-        // yaw += rollSpeed * Input.GetAxis("Mouse X");
-        // pitch -= rollSpeed * Input.GetAxis("Mouse Y");
+        move = transform;
+    }
 
-        // transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+    void LateUpdate ()
+    {
+        follow();
+    }
+
+    void follow()
+    {
+        Vector3 toPos = target.position + (target.rotation * defaultDistance);
+        Vector3 currentPos = Vector3.SmoothDamp(move.position, toPos, ref velocity, distanceDamp);
+        move.position = currentPos;
+
+        move.LookAt(target, target.up);
     }
 }

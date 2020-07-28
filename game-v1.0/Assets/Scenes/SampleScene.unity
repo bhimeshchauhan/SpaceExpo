@@ -158,8 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d64a5e931844e4ba5f99d072fbc3e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  rotate: 150
   thrust: 90
+  pitch: 0
   leftShooter: {fileID: 423140912}
   rightShooter: {fileID: 1583566610}
 --- !u!1 &423140912
@@ -194,7 +195,7 @@ Transform:
   m_LocalScale: {x: 0.30498064, y: 2.0001557, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &423140914
 Rigidbody:
@@ -297,12 +298,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458476596}
-  m_LocalRotation: {x: 0.7603466, y: -0.03021424, z: 0.035028793, w: 0.6478682}
-  m_LocalPosition: {x: -8, y: 40, z: 30}
-  m_LocalScale: {x: 0.5, y: 0.5000002, z: 0.5000002}
+  m_LocalRotation: {x: -0.7584241, y: 0.06190894, z: -0.007969797, w: -0.6487656}
+  m_LocalPosition: {x: -9.275055, y: 66.43881, z: 60}
+  m_LocalScale: {x: 0.9984661, y: 0.9950391, z: 0.8240778}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 659554169}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 99.13199, y: -5.104004, z: 0.20199585}
 --- !u!108 &458476598
 Light:
@@ -500,7 +501,7 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: FollowCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -565,11 +566,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0.104437456, y: -0.004360837, z: -0.041490596, w: -0.9936561}
-  m_LocalPosition: {x: -1.2204728, y: 14.589039, z: -40}
+  m_LocalPosition: {x: 0, y: 9, z: -35}
   m_LocalScale: {x: 1, y: 1.2104901, z: 1.0095102}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 12, y: 0, z: 0}
 --- !u!45 &963194229
 Skybox:
@@ -592,6 +593,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf813f261081849228331084cce88692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 659554169}
+  velocity: {x: 1, y: 1, z: 1}
+  distanceDamp: 2
 --- !u!1 &1373219616
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +626,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 659554169}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!199 &1373219618
 ParticleSystemRenderer:
@@ -5377,7 +5381,7 @@ Transform:
   m_LocalScale: {x: 0.3044763, y: 2.0041902, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1583566612
 CapsuleCollider:
